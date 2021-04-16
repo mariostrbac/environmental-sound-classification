@@ -1,34 +1,34 @@
 <h1> Environmental Sound Classification Using Deep Learning </h1>
 
-The purpose of this project is to construct a machine learning model that can classify multiple different environmental sound classes, specifically focusing on the identification of particular urban sounds. 
+The main idea of the project was to build a machine learning model that can classify multiple different environmental sound classes. For the identification of the environmental sounds, urban sound excerpts from the [UrbanSound8K](https://urbansounddataset.weebly.com/urbansound8k.html) dataset were selected, as well as a convolutional neural network model and two audio data augmentation techniques. 
 
-In addition, the following can provide a simple introduction to sound classification, with the main goal of exploring the PyTorch machine learning library and its functionalities. 
+Both PyTorch and Keras implementations of the model are provided in the project. Although the model performs slightly better with Keras, the primary focus of the project is on the PyTorch library, while the Keras implementation is provided only for the comparison of the obtained results. Therefore, the following sections will be focused solely on the development of a deep learning model for sound classification with PyTorch. 
 
-The focus of this project is on the PyTorch library, but the Keras implementation is given for the comparison of obtained results. Therefore, although the Keras model performs slightly better, everything below will be focused solely around development of a deep learning model with the PyTorch library.
+In summary, the project provides a simple introduction to machine learning and sound classification, with the goal of exploring the PyTorch library and its functionalities. 
 
-## Methods and Algorithms Used
+## Topics
 * Data Preprocessing
 * Digital Signal Processing (Log-Mel Spectrograms)
 * Data Augmentation
-* Machine Learning
 * Convolutional Neural Networks
+* Machine Learning
 * Sound Classification
 * K-Fold Cross Validation
-* etc.
 
 ## Technologies
 * Python
 * Librosa
-* PyTorch
-* Keras
+* PyTorch, Keras
 * NumPy, Pandas, Matplotlib, Seaborn
-* Jupyter Notebook
-* etc. 
+* Jupyter Notebook, Google Colab
+
 
 ## Dataset
 * UrbanSound8K
-  
-Analysis of the results obtained from the cross-validation method is given in the [Results](#results) section. In short, the cross-validation examined with the CNN model for sound classification gives **72%** accuracy and the loss of **0.934** measured on the UrbanSound8K dataset with the PyTorch implementation. The Keras model gives slightly better results, **75%** accuracy and **0.924** for the loss. More detailed results for the Keras model can be found in the Jupyter Notebook file.
+
+<br>
+
+Analysis of the results obtained with **10-fold cross-validation** is presented in the [Results](#results) section. The model achieves the accuracy of **72%** and the loss of **0.934** on the UrbanSound8K dataset with PyTorch. On the other hand, the model preforms slightly better with Keras, achieving the accuracy of **75%** and the loss of **0.924**. More detailed results for the Keras implementation can be found in the project's [`evaluate_classifier_keras.ipynb`](notebooks/evaluate_classifier_keras.ipynb) file.
 
 <h1> Table Of Contents </h1>
 
@@ -36,25 +36,21 @@ Analysis of the results obtained from the cross-validation method is given in th
 - [UrbanSound8K](#urbansound8k)
 - [Data Augmentation](#data-augmentation)
 - [CNN Model](#cnn-model)
-- [In a Nutshell](#in-a-nutshell)
-  - [**1. data_preprocessing.ipynb**](#1-data_preprocessingipynb)
-  - [**2. evaluate_classifier.ipynb**](#2-evaluate_classifieripynb)
+- [Implementation Details](#implementation-details)
 - [Results](#results)
 - [References](#references)
 
 # Project Description
 
-Deep learning techniques applied to the classification of environmental sounds are specifically focused on the identification of particular urban sounds from the [UrbanSound8K](https://urbansounddataset.weebly.com/urbansound8k.html) dataset used in this project.
+The project consists of three Jupyter Notebook files. The first contains the data preparation step and the other two contain the implementation of the sound classification model with PyTorch and Keras. Deep learning techniques applied in the classification of environmental sounds are specifically focused on the identification of the particular urban sounds from the UrbanSound8K dataset.
 
-The project consists of three Jupyter Notebook files. The first contains code for data preparation and the other two contain the implementation of sound classifier model with PyTorch and Keras. 
+In the data preprocessing step, sounds from the dataset are converted to [log-mel spectrograms](https://towardsdatascience.com/getting-to-know-the-mel-spectrogram-31bca3e2d9d0). Spectrograms provide temporal and spectral characteristics of sound signals, and therefore can be used as image inputs in the training step. 
 
-In the data preprocessing step, examples from the dataset are converted to [log-mel spectrograms](https://towardsdatascience.com/getting-to-know-the-mel-spectrogram-31bca3e2d9d0). Spectrograms provide temporal and spectral characteristics of sound signals and therefore can be used as image inputs in the training step. 
+To increase the size of the training data, two data augmentation techniques are used. Both techniques are designed specifically for the augmentation of audio data, but applied as image augmentation techniques.
 
-To increase the amount of the data two data augmentation techniques are used. The both techniques are designed specifically for augmentation of audio data, but applied as image augmentation techniques.
+The model has a simple CNN architecture, composed of three convolutional layers and two dense layers. A more detailed description of the model's architecture can be seen in the [CNN model](#cnn-model) section.
 
-The model has a simple CNN architecture, composed of three convolutional layers and two dense layers. 
-
-The evaluation of the model is performed with the 10-fold cross validation method on pre-defined folds.
+The evaluation of the model is performed with the 10-fold cross-validation method on the predefined folds and with the accuracy metric.
 
 # UrbanSound8K
 "This dataset contains 8732 labeled sound excerpts (<=4s) of urban sounds from **10 classes**: 
@@ -69,39 +65,37 @@ The evaluation of the model is performed with the 10-fold cross validation metho
 9. siren and 
 10. street_music
 
-All excerpts are taken from field recordings uploaded to [Freesound](ww.freesound.org). The files are pre-sorted into ten folds (folders named fold1-fold10) to help in the reproduction of and comparison with the automatic classification results reported in [this](http://www.justinsalamon.com/uploads/4/3/9/4/4394963/salamon_urbansound_acmmm14.pdf) article.
+All excerpts are taken from field recordings uploaded to [Freesound](https://freesound.org/). The files are pre-sorted into ten folds (folders named fold1-fold10) to help in the reproduction of and comparison with the automatic classification results reported in [this](http://www.justinsalamon.com/uploads/4/3/9/4/4394963/salamon_urbansound_acmmm14.pdf) article.
 
 In addition to the sound excerpts, a CSV file containing metadata about each excerpt is also provided.
 
-Audio files are in the WAV format and the sampling rate, bit depth, and number of channels are the same as those of the original file uploaded to Freesound (and hence may vary from file to file)." \[[1](#references)\]
+Audio files are in the WAV format and the sampling rate, bit depth, and number of channels are the same as those of the original file uploaded to Freesound (and hence may vary from file to file)." \[[4](#references)\]
 
-<br>
-
-![image](images/ran-spec-3x3.png)
-<p align="center">
-  <b>Figure 1.</b> <i> examples of log-mel spectorgrams from the dataset</i>
-</p>
-
-<br>
+<figure>
+  <p align="center">
+    <img src="images/ran-spec-3x3.png"/> <br>
+    <b>Figure 1.</b> Examples of log-mel spectorgrams from the dataset.
+  </p>
+</figure>
 
 # Data Augmentation
-The size of the dataset is relatively small, so utilization of data augmentation techniques is recommended. In this project, an online method of data augmentation is applied. Therefore, the model is basically never trained on the exact same examples. Although this approach is much more time consuming, effects of overfitting are significantly reduced.
 
-The two main techniques are used for the purposes of this project:
+To compensate for the relatively small size of the dataset, two data augmentation techniques were used. Data augmentation was performed online by applying the techniques on the input spectrograms before they are fed to the model. Both techniques are applied with given probabilities, ensuring that the model is rarely trained on the exact same examples. Although this approach is much more time consuming, the effects of overfitting are significantly reduced.
+
+The two main techniques used for the purposes of this project are:
 * **Background Gaussian Noise**
-  * mixing the sample with background white noise
+  * Adds background white noise to the spectrogram.
 * **Time Shifting**
-  * shifting the image to the right (in time), a part of the image which ends out of the fixed length of a frame is cut off 
+  * Shifts the spectrogram to the right (in time) - a part of the spectrogram shifted out of the fixed length of the frame is cut off.
 
-Each technique is applied with a given probability, so multiple different combinations are possible when a new example is generated.
+Considering that each technique is applied with a given probability, multiple different combinations of the same spectrogram input are possible when generating a new sample. An example of different possible combinations of data augmentation techniques used on the spectrogram of a dog barking sound is shown in **Figure 2.**
 
-<br>
-
-![image](images/data-aug.png)
-<p align="center">
-  <b>Figure 2.</b> <i> an example of different possible combinations of data augmentation</i>
-</p>
-<br>
+<figure>
+  <p align="center">
+    <img src="images/data-aug.png"/> <br>
+    <b>Figure 2.</b> Different combinations of data augmentation techniques used on a spectrogram from the dataset.
+  </p>
+</figure>
 
 
 # CNN Model
@@ -112,26 +106,29 @@ The proposed CNN architecture is parameterized as follows:
 * **4**: 60 hidden units, followed by a ReLU activation function and dropout layer.
 * **5**: 10 output units, followed by a softmax activation function.
 
-<br>
+<figure>
+  <p align="center">
+    <img src="images/model-1-arh.png"/> <br>
+    <b>Figure 3.</b> Architecture of the CNN model [3].
+  </p>
+</figure>
 
-![image](images/model-1-arh.png)
-<p align="center">
-  <b>Figure 3.</b> <i>the architecture of CNN model </i> [3]
-</p>
-
-<br>
-
-# In a Nutshell   
+# Implementation Details  
 The code is organized into two Jupyter Notebook files:
 1. [`data_preprocessing.ipynb`](notebooks/data_preprocessing.ipynb)
 2. [`evaluate_classifier.ipynb`](notebooks/evaluate_classifier.ipynb)
 
-## **1. data_preprocessing.ipynb**
-The first notebook includes two sections:
+<h2> 1. data_preprocessing.ipynb </h2>
+
+The first notebook has two sections:
 1. Download and extract the dataset file
 2. Feature extraction
 
-* The most important parts of the first notebook are shown in the following two code blocks. The first code block contains a function for computing a log-mel spectrogram from an audio .WAV file. The computation of the audio spectrogram is done with the [Librosa](https://librosa.org/doc/latestt/index.html) Python module  and its functions for audio and music processing. The last part of the function includes padding or cutting of a spectrogram so that it results in exactly 128 samples afterwards. Finally, each example is processed in a way that its output spectrogram has a shape (128,128), where the first dimension represents a number of Mel bands.
+<br>
+
+* The most important parts of the first notebook are shown in the next two code blocks. 
+* The first code block contains a function that computes log-mel spectrograms from audio files. The computation of audio spectrograms is performed with the [Librosa](https://librosa.org/doc/latest/index.html) library and its functions for audio and music processing. Also, the length of the spectrogram is padded or cut off to the exactly 128 samples in the last part of the function.
+* Every example from the dataset is processed so that its output spectrogram has a shape of (128,128), where the first dimension refers to the number of Mel bands and the second refers to the length of the spectrogram.
 
 ```python
 def compute_melspectrogram_with_fixed_length(audio, sampling_rate, num_of_samples=128):
@@ -159,10 +156,10 @@ def compute_melspectrogram_with_fixed_length(audio, sampling_rate, num_of_sample
     
     return melspectrogram_db
 ```
-* In the next block, iteration through the dataset and the process of spectrogram feature extraction is shown.
+* The second block shows the process of spectrogram feature extraction for each audio file from the dataset.
 
 ```python
-SOUND_DURATION = 2.95   # fixed duration of an audio excerpt in seconds
+SOUND_DURATION = 2.95   # fixed duration of audio excerpts in seconds
 
 features = []
 
@@ -177,11 +174,12 @@ for index, row in tqdm(us8k_metadata_df.iterrows(), total=len(us8k_metadata_df))
     
     features.append([melspectrogram, label, fold])
 
-# Convert into a Pandas DataFrame 
+# convert into a Pandas DataFrame 
 us8k_df = pd.DataFrame(features, columns=["melspectrogram", "class", "fold"])
 ```
-## **2. evaluate_classifier.ipynb**
-The second notebook includes six sections:
+<h2> 2. evaluate_classifier.ipynb </h2>
+
+The second notebook has six sections:
 1. Create a custom Dataset class
 2. Data augmentation
 3. CNN model
@@ -189,9 +187,9 @@ The second notebook includes six sections:
 5. 10-fold cross validation
 6. Results
 
-* A PyTorch's `torch.utils.data.Dataset` class is implemented as a data loading utility support for the purposes of this project.
-<br></br>
-* The following two code blocks show implementation of the `__call__` method of custom augmentation classes.
+<br>
+
+* The following two code blocks show the `__call__` method of two custom data augmentation classes defined in the project.
 
 ```python
 class MyRightShift(object):
@@ -236,9 +234,9 @@ class MyAddGaussNoise(object):
 
       return noisy_spectrogram
 ```
-
-
-* The next three blocks contain an implementation of PyTorch's `torch.nn.Module` class. The first two blocks show only the most important parts of implementation, like initialization of the network's architecture and its forward function. The last block is an excerpt from the model's `fit` function.
+* The next three code blocks contain a few excerpts from the implementation of the CNN model with the PyTorch's [`torch.nn.Module`](https://pytorch.org/docs/stable/generated/torch.nn.Module.html) class. 
+* The first block shows the initialization of the network's architecture in the `__init__` function and the second shows the model's `forward` function.
+* The last block contains an excerpt from the model's `fit` function, which shows the implementation of the mini-batch training approach used in the project.
   
 ``` python
 def __init__(self, device):
@@ -284,7 +282,6 @@ def forward(self, x):
 
     return x
 ```
-* This code excerpt shows an implementation of the mini-batch training approach in this project.
 ```python
 for epoch in range(epochs):
     self.train()
@@ -305,11 +302,11 @@ for epoch in range(epochs):
             # update the parameters
             self.optimizer.step() 
 ``` 
-* This is a helper function for processing a fold in the K-fold cross validation method designed specifically for the purposes of this project. 
+* And lastly, the processing of a fold in the K-fold cross-validation method is performed with a helper function shown in the following code block. The function is designed specifically for the purposes of this project.
 
 ```python
 def process_fold(fold_k, dataset_df, epochs=100, batch_size=32, num_of_workers=0):
-    #split the data
+    # split the data
     train_df = dataset_df[dataset_df['fold'] != fold_k]
     test_df = dataset_df[dataset_df['fold'] == fold_k]
 
@@ -348,20 +345,20 @@ def process_fold(fold_k, dataset_df, epochs=100, batch_size=32, num_of_workers=0
     return history
 ```
 
-* Other two helper functions are `normalize_data` and `init_model`, which normalize the data in respect to the train data and initialize the model to its random initial state, respectively.
-* The 10-fold cross validation procedure is performed on pre-defined data folds. More in-depth motivation explaining why it's important to do exactly the 10-fold validation is given in the next section, and on [this](https://urbansounddataset.weebly.com/urbansound8k.html) page.
+* The other two helper functions in the project are `normalize_data` and `init_model`. The first normalizes the data in respect to the training data and the second initializes the model to a random initial state.
+* The 10-fold cross-validation procedure is performed on the predefined folds. A more detailed explanation why it is important to do exactly the 10-fold cross-validation is given in the next section, and on [this](https://urbansounddataset.weebly.com/urbansound8k.html) site as well.
   
-<br>
-
 # Results
-The model evaluation is done with the 10-fold cross validation method. In most cases, examples from the same class in the dataset are derived from the same audio source file, hence it is necessary to use the pre-defined folds. Otherwise, obtained results can be significantly inflated and can cause inaccurate perception of the classifier's performance.
+The model evaluation was performed with the 10-fold cross-validation method. As described in the [data paper](http://www.justinsalamon.com/uploads/4/3/9/4/4394963/salamon_urbansound_acmmm14.pdf), samples from the same class in the dataset are generally extracted from the same audio source files. Therefore, to avoid placing related samples in both the train and test sets, it is necessary to use the predefined folds. Otherwise, achieved results can end up being significantly inflated, leading to inaccurate scores that do not represent the model's performance on unseen data.
 
-Loss and accuracy are metrics used for the evaluation. For the loss function cross-entropy is selected and the accuracy is defined as the percentage of correctly classified instances.
+Loss and accuracy are metrics used for the evaluation. Categorical cross-entropy loss is selected for the loss function and the accuracy is defined as the percentage of correctly classified instances.
 
-For each fold, the loss is calculated by taking the minimum loss score of all epochs on the validation set. Likewise, the accuracy of each fold is selected as the best validation accuracy over the epochs.
+For each fold, the loss is calculated by taking the minimum loss value of all epochs on the validation set. Likewise, the accuracy for each fold is calculated by taking the best validation accuracy value over the epochs.
 
-Here are the results of 10-fold cross validation after repeating the procedure three times and calculating the mean. 
+The results of the 10-fold cross-validation after repeating the procedure three times and calculating the mean are shown in **Table 1.** , **Figure 4.** and **Figure 5.** More detailed results can be found in the notebooks, including confusion matrices,  along with loss and accuracy graphs for each fold.
 
+
+<b>Table 1.</b> Average loss and accuracy values for each fold over 3 cross-validation runs.
 <center> 
 
 |fold|accuracy| loss
@@ -378,30 +375,29 @@ Here are the results of 10-fold cross validation after repeating the procedure t
 |fold-10|0.74|0.760|
 |**Total**|**0.72**|**0.934**| 
 </center>
-<b>Table 1.</b> <i> shows average loss and accuracy scores for each fold over 3 cross-validation runs</i>
 
-<br></br>
+<figure>
+  <p align="center">
+    <img src="images/CV-accuracy.png"/> <br>
+    <b>Figure 4.</b> Accuracy measured with the 10-fold cross-validation method.
+  </p>
+</figure>
 
-![image](images/CV-accuracy.png)
-<p align="center">
-  <b>Figure 4.</b> <i>the accuracy measured by 10-fold cross validation score</i>
-</p>
+<figure>
+  <p align="center">
+    <img src="images/CV-loss.png"/> <br>
+    <b>Figure 5.</b> Loss measured with the 10-fold cross-validation method.
+  </p>
+</figure>
 
-<br></br>
-
-![image](images/CV-loss.png)
-<p align="center">
-  <b>Figure 5.</b> <i>the loss measured by 10-fold cross validation score </i>
-</p>
-
-<br></br>
+</br>
 
 * **What's next?**
   * more in-depth analysis of the results
-  * keep tuning the hyperparameters
-  * test the transfer learning approach
-  * examine different data augmentation techniques, try to modify techniques specifically to particular sound classes
-  * implement a real-time sound classification system
+  * further tuning of the hyperparameters
+  * testing the transfer learning approach
+  * examining different data augmentation techniques, and modifying techniques specifically to particular sound classes
+  * implementing a real-time sound classification system
   
 <br>
 
@@ -410,3 +406,4 @@ Here are the results of 10-fold cross validation after repeating the procedure t
 1. J. Salamon, C. Jacoby, and J.P.Bello, "A Dataset and Taxonomy for Urban Sound Research," in 22nd ACM International Conference on Multimedia (ACM-MM'14), Orlando, FL, USA, Nov. 2014, pp. 1041–1044. \[Online\]. Available: http://www.justinsalamon.com/uploads/4/3/9/4/4394963/salamon_urbansound_acmmm14.pdf 
 2. J. Salamon and J. P. Bello, "Deep Convolutional Neural Networks and Data Augmentation for Environmental Sound Classification", submitted, 2016.\[Online\]. Available: https://arxiv.org/pdf/1608.04363.pdf
 3. Zohaib Mushtaq, Shun-Feng Su, "Environmental sound classification using a regularized deep convolutional neural network with data augmentation", Applied Acoustics, Volume 167, 2020, 107389, ISSN 0003-682X, https://doi.org/10.1016/j.apacoust.2020.107389. (http://www.sciencedirect.com/science/article/pii/S0003682X2030493X)
+4. J. Salamon, C. Jacoby and J. P. Bello, "UrbanSound8k Dataset", Urban Sound Datasets. Available: https://urbansounddataset.weebly.com/urbansound8k.html
