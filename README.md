@@ -28,7 +28,7 @@ In summary, the project provides a simple introduction to machine learning and s
 
 <br>
 
-Analysis of the results obtained with **10-fold cross-validation** is presented in the [Results](#results) section. The model achieves the accuracy of **72%** and the loss of **0.934** on the UrbanSound8K dataset with PyTorch. On the other hand, the model preforms slightly better with Keras, achieving the accuracy of **75%** and the loss of **0.924**. More detailed results for the Keras implementation can be found in the project's [`evaluate_classifier_keras.ipynb`](notebooks/evaluate_classifier_keras.ipynb) file.
+Analysis of the results obtained with **10-fold cross-validation** is presented in the [Results](#results) section. The model achieves the accuracy of **72%** and the loss of **0.934** on the UrbanSound8K dataset with PyTorch. On the other hand, the model performs slightly better with Keras, achieving the accuracy of **75%** and the loss of **0.924**. More detailed results for the Keras implementation can be found in the [`evaluate_classifier_keras.ipynb`](notebooks/evaluate_classifier_keras.ipynb) notebook.
 
 <h1> Table Of Contents </h1>
 
@@ -128,7 +128,7 @@ The first notebook has two sections:
 
 * The most important parts of the first notebook are shown in the next two code blocks. 
 * The first code block contains a function that computes log-mel spectrograms from audio files. The computation of audio spectrograms is performed with the [Librosa](https://librosa.org/doc/latest/index.html) library and its functions for audio and music processing. Also, the length of the spectrogram is padded or cut off to the exactly 128 samples in the last part of the function.
-* Every example from the dataset is processed so that its output spectrogram has a shape of (128,128), where the first dimension refers to the number of Mel bands and the second refers to the length of the spectrogram.
+* Each example from the dataset is processed so that its output spectrogram has a shape of (128,128), where the first dimension refers to the number of Mel bands and the second refers to the length of the spectrogram.
 
 ```python
 def compute_melspectrogram_with_fixed_length(audio, sampling_rate, num_of_samples=128):
@@ -156,7 +156,7 @@ def compute_melspectrogram_with_fixed_length(audio, sampling_rate, num_of_sample
     
     return melspectrogram_db
 ```
-* The second block shows the process of spectrogram feature extraction for each audio file from the dataset.
+* The second block shows the spectrogram feature extraction for each audio file from the dataset.
 
 ```python
 SOUND_DURATION = 2.95   # fixed duration of audio excerpts in seconds
@@ -189,7 +189,7 @@ The second notebook has six sections:
 
 <br>
 
-* The following two code blocks show the `__call__` method of two custom data augmentation classes defined in the project.
+* The following two code blocks show the `__call__` method of two custom data augmentation classes used in the project.
 
 ```python
 class MyRightShift(object):
@@ -218,7 +218,7 @@ class MyAddGaussNoise(object):
       if np.random.random() > self.add_noise_prob:
           return spectrogram
 
-      # set some std value 
+      # set the std value 
       min_pixel_value = np.min(spectrogram)
       if self.std is None:
         std_factor = 0.03     # factor number 
@@ -324,10 +324,10 @@ def process_fold(fold_k, dataset_df, epochs=100, batch_size=32, num_of_workers=0
     # init test data loader
     test_ds = UrbanSound8kDataset(test_df, transform=test_transforms)
     test_loader = DataLoader(test_ds, 
-                            batch_size=batch_size,
-                            shuffle=False,
-                            pin_memory=True,
-                            num_workers=num_of_workers)
+                             batch_size=batch_size,
+                             shuffle=False,
+                             pin_memory=True,
+                             num_workers=num_of_workers)
 
     # init model
     model = init_model()
